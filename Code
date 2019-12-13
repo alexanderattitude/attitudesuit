@@ -1,0 +1,108 @@
+/*
+  AnalogReadSerial
+
+  Reads an analog input on pin 2, prints the result to the Serial Monitor.
+  Graphical representation is available using Serial Plotter (Tools > Serial Plotter menu).
+  Attach the center pin of a potentiometer to pin A2, and the outside pins to +5V and ground.
+
+  This example code is in the public domain.
+
+  http://www.arduino.cc/en/Tutorial/AnalogReadSerial
+*/
+
+int stretchSensor1 = A2; // stretch sensor connection to analog pin 2 (a2)
+int stretchSensor2 = A3; // stretch sensor connection to analog pin 3 (a3)
+int stretchSensor3 = A4; // stretch sensor connection to analog pin 4 (a4)
+int stretchSensor4 = A5; // stretch sensor connection to analog pin 5 (a5)
+int solenoid1 = 5; // solenoid connected to digital pin 5
+int solenoid2 = 6; // solenoid connected to digital pin 6
+int solenoid3 = 10; // solenoid connected to digital pin 10
+int solenoid4 = 11; // solenoid connected to digital pin 11
+
+// the setup routine runs once when you press reset:
+void setup() {
+  // initialize serial communication at 9600 bits per second:
+  Serial.begin(9600);
+  pinMode(stretchSensor1, INPUT_PULLUP); // hack by using the 20k input pullup resistor
+  pinMode(solenoid1, OUTPUT); // initialize the solenoid as an output
+  
+  pinMode(stretchSensor2, INPUT_PULLUP); // hack by using the 20k input pullup resistor
+  pinMode(solenoid2, OUTPUT); // initialize the solenoid as an output
+  
+  pinMode(stretchSensor3, INPUT_PULLUP); // hack by using the 20k input pullup resistor
+  pinMode(solenoid3, OUTPUT); // initialize the solenoid as an output
+  
+  pinMode(stretchSensor4, INPUT_PULLUP); // hack by using the 20k input pullup resistor
+  pinMode(solenoid4, OUTPUT); // initialize the solenoid as an output
+
+}
+
+// the loop routine runs over and over again forever:
+void loop() {
+  // read the input on analog pin 2:
+  int sensorValue1 = analogRead(stretchSensor1);
+  int sensorValue2 = analogRead(stretchSensor2); 
+  int sensorValue3 = analogRead(stretchSensor3);
+  int sensorValue4 = analogRead(stretchSensor4); 
+
+  // print out the value you read:
+  Serial.print(sensorValue1);
+  Serial.print(' ');
+  Serial.print(sensorValue2);
+  Serial.print(' ');
+  Serial.print(sensorValue3);
+  Serial.print(' ');
+  Serial.print(sensorValue4);
+  Serial.println();
+  delay(1);        // delay in between reads for stability
+
+ int delayTime1 = map(sensorValue1, 0, 800, 10, 400); // mapping the sensor value to a specfic range to control the movement
+ int delayTime2 = map(sensorValue2, 0, 500, 10, 400); // mapping the sensor value to a specfic range to control the movement
+ int delayTime3 = map(sensorValue3, 0, 800, 10, 400); // mapping the sensor value to a specfic range to control the movement
+ int delayTime4 = map(sensorValue4, 0, 800, 10, 400); // mapping the sensor value to a specfic range to control the movement
+   
+  if (sensorValue1 < 100) { // if sensor value is  loqwer than 200 control freq
+    digitalWrite(solenoid1,LOW);    // turn the solenoid off by making the voltage LOW
+    delay(delayTime1);
+    digitalWrite(solenoid1,HIGH);    // turn the solenoid off by making the voltage LOW
+    delay(delayTime1);
+  }
+  
+  else { // else turn the solenoid on
+   digitalWrite(solenoid1, HIGH);   // turn the motor on (HIGH is the voltage level
+
+  }
+   if (sensorValue2 < 100) { // if sensor value is  loqwer than 200 control freq
+    digitalWrite(solenoid2,LOW);    // turn the solenoid off by making the voltage LOW
+    delay(delayTime2);
+    digitalWrite(solenoid2,HIGH);    // turn the solenoid off by making the voltage LOW
+    delay(delayTime2);
+  }
+  
+  else { // else turn the solenoid on
+   digitalWrite(solenoid2, HIGH);   // turn the motor on (HIGH is the voltage level
+
+  }
+   if (sensorValue3 < 100) { // if sensor value is  loqwer than 200 control freq
+    digitalWrite(solenoid3,LOW);    // turn the solenoid off by making the voltage LOW
+    delay(delayTime3);
+    digitalWrite(solenoid3,HIGH);    // turn the solenoid off by making the voltage LOW
+    delay(delayTime3);
+  }
+  
+  else { // else turn the solenoid on
+   digitalWrite(solenoid3, HIGH);   // turn the motor on (HIGH is the voltage level
+
+  }
+   if (sensorValue4 < 500) { // if sensor value is  loqwer than 200 control freq
+    digitalWrite(solenoid4,LOW);    // turn the solenoid off by making the voltage LOW
+    delay(delayTime4);
+    digitalWrite(solenoid4,HIGH);    // turn the solenoid off by making the voltage LOW
+    delay(delayTime4);
+  }
+  
+  else { // else turn the solenoid on
+   digitalWrite(solenoid4, HIGH);   // turn the motor on (HIGH is the voltage level
+
+  }
+}
